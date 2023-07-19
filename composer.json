@@ -1,0 +1,33 @@
+{
+	"name": "stefna/api-client-runtime",
+	"description": "Base package for api clients",
+	"license": "MIT",
+	"type": "library",
+	"authors": [
+		{
+			"name": "Andreas Sundqvist",
+			"email": "andreas@stefna.is"
+		}
+	],
+	"require": {
+		"php": "^7.4 || ^8.0",
+		"psr/http-client": "^1.0",
+		"psr/http-message": "^1.0",
+		"psr/http-factory": "^1.0",
+		"psr/log": "^1.1 || ^2.0 || ^3.0"
+	},
+	"require-dev": {
+		"stefna/codestyle": "^1.12.1",
+		"stefna/http-client": "^1.0",
+		"phpstan/phpstan": "^1.10"
+	},
+	"suggest": {
+		"nyholm/psr7": "For psr-7 and psr-17 implemenations",
+		"kriswallsmith/buzz": "For psr-18 implemenation"
+	},
+	"autoload": {
+		"psr-4": {
+			"Stefna\\ApiClientRuntime\\": "src/"
+		}
+	}
+}

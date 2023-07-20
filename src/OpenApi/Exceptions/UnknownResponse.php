@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Stefna\ApiClientRuntime\Exceptions;
+namespace Stefna\ApiClientRuntime\OpenApi\Exceptions;
 
 use Psr\Http\Message\ResponseInterface;
+use Stefna\ApiClientRuntime\Exceptions\ApiClientResponseException;
 
 final class UnknownResponse extends \RuntimeException implements ApiClientResponseException
 {

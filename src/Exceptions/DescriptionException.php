@@ -3,8 +3,9 @@
 namespace Stefna\ApiClientRuntime\Exceptions;
 
 use Psr\Http\Message\ResponseInterface;
+use Stefna\ApiClientRuntime\Exceptions\ApiClientResponseException;
 
-class DescriptionResponseException extends \RuntimeException implements ApiClientResponseException
+class DescriptionException extends \RuntimeException implements ApiClientResponseException
 {
 	private ResponseInterface $response;
 

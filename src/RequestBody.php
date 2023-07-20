@@ -4,6 +4,8 @@ namespace Stefna\ApiClientRuntime;
 
 interface RequestBody
 {
+	public function getArrayCopy(): array;
+
 	public function getContentType(): string;
 
 	public function getBody(): string;

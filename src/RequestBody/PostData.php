@@ -26,4 +26,9 @@ final class PostData implements RequestBody
 	{
 		return 'application/x-www-form-urlencoded';
 	}
+
+	public function getArrayCopy(): array
+	{
+		return $this->data;
+	}
 }

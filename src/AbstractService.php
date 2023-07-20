@@ -17,16 +17,10 @@ abstract class AbstractService implements LoggerAwareInterface
 {
 	use LoggerAwareTrait;
 
-	protected ClientInterface $client;
-	protected ServerConfiguration $serverConfiguration;
-	private RequestFactoryInterface $requestFactory;
 	private ?ResponseInterface $lastResponse = null;
 	private ?RequestInterface $lastRequest = null;
 
-	/**
-	 * @return static
-	 */
-	public static function create(ServerConfiguration $serverConfiguration, HttpFactory $factory = null)
+	public static function create(ServerConfiguration $serverConfiguration, HttpFactory $factory = null): static
 	{
 		if (!$factory) {
 			$factory = new HttpFactory();
@@ -38,24 +32,17 @@ abstract class AbstractService implements LoggerAwareInterface
 	}
 
 	public function __construct(
-		ServerConfiguration $serverConfiguration,
-		ClientInterface $client,
-		RequestFactoryInterface $requestFactory
-	) {
-		$this->serverConfiguration = $serverConfiguration;
-		$this->client = $client;
-		$this->requestFactory = $requestFactory;
-	}
+		protected ServerConfiguration $serverConfiguration,
+		protected ClientInterface $client,
+		private RequestFactoryInterface $requestFactory
+	) {}
 
 	public function getServerConfiguration(): ServerConfiguration
 	{
 		return $this->serverConfiguration;
 	}
 
-	/**
-	 * @return static
-	 */
-	public function withServerConfiguration(ServerConfiguration $serverConfiguration)
+	public function withServerConfiguration(ServerConfiguration $serverConfiguration): static
 	{
 		$self = clone $this;
 		$self->serverConfiguration = $serverConfiguration;
@@ -115,7 +102,7 @@ abstract class AbstractService implements LoggerAwareInterface
 	/**
 	 * @return array|mixed
 	 */
-	protected function parseJsonResponse(ResponseInterface $response)
+	protected function parseJsonResponse(ResponseInterface $response): mixed
 	{
 		$body = (string)$response->getBody();
 		if (!$body) {

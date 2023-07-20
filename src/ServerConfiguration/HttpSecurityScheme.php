@@ -6,16 +6,11 @@ use Psr\Http\Message\RequestInterface;
 
 final class HttpSecurityScheme implements SecurityScheme
 {
-	private string $ref;
-	private string $type;
-	private string $scheme;
-
-	public function __construct(string $name, string $type, string $schema)
-	{
-		$this->ref = $name;
-		$this->type = $type;
-		$this->scheme = $schema;
-	}
+	public function __construct(
+		private string $ref,
+		private string $type,
+		private string $scheme,
+	) {}
 
 	public function getRef(): string
 	{

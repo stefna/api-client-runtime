@@ -6,16 +6,10 @@ use Stefna\ApiClientRuntime\RequestBody;
 
 final class JsonData implements RequestBody
 {
-	/** @var mixed */
-	private $data;
 
-	/**
-	 * @param mixed $data
-	 */
-	public function __construct($data)
-	{
-		$this->data = $data;
-	}
+	public function __construct(
+		private mixed $data,
+	) {}
 
 	public function getBody(): string
 	{

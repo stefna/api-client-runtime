@@ -4,9 +4,5 @@ namespace Stefna\ApiClientRuntime\OpenApi;
 
 interface ModelResponseFactory
 {
-	/**
-	 * @param mixed $data
-	 * @return static
-	 */
-	public static function createFromResponse($data);
+	public static function createFromResponse(mixed $data): static;
 }

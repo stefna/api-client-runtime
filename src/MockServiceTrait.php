@@ -17,7 +17,7 @@ trait MockServiceTrait
 	/** @var array<string, ResponseInterface> */
 	private array $responseMap = [];
 
-	public function setExecuteHandler(\Closure $handler)
+	public function setExecuteHandler(\Closure $handler): void
 	{
 		$this->executeHandler = $handler;
 	}

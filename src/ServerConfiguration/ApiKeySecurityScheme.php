@@ -6,16 +6,11 @@ use Psr\Http\Message\RequestInterface;
 
 final class ApiKeySecurityScheme implements SecurityScheme
 {
-	private string $ref;
-	private string $name;
-	private string $in;
-
-	public function __construct(string $ref, string $name, string $in)
-	{
-		$this->ref = $ref;
-		$this->name = $name;
-		$this->in = $in;
-	}
+	public function __construct(
+		private string $ref,
+		private string $name,
+		private string $in,
+	) {}
 
 	public function getRef(): string
 	{

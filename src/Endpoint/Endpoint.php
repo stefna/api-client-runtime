@@ -8,36 +8,19 @@ use Stefna\ApiClientRuntime\ServerConfiguration\SecurityScheme;
 
 class Endpoint implements EndpointContract
 {
-	protected string $path;
-	/** @var array<string, mixed> */
-	protected array $query;
-	/** @var array<string, string> */
-	protected array $headers;
-	/** @var list<string> */
-	protected array $security;
-	protected ?RequestBody $body;
-	protected string $method;
-
 	/**
 	 * @param array<string, mixed> $query
 	 * @param array<string, string> $headers
 	 * @param list<string> $security
 	 */
 	public function __construct(
-		string $method,
-		string $path,
-		RequestBody $body = null,
-		array $query = [],
-		array $headers = [],
-		array $security = []
-	) {
-		$this->path = $path;
-		$this->query = $query;
-		$this->headers = $headers;
-		$this->security = $security;
-		$this->body = $body;
-		$this->method = $method;
-	}
+		protected string $method,
+		protected string $path,
+		protected ?RequestBody $body = null,
+		protected array $query = [],
+		protected array $headers = [],
+		protected array $security = [],
+	) {}
 
 	public function getHeaders(): array
 	{

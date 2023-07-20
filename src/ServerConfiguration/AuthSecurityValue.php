@@ -4,8 +4,6 @@ namespace Stefna\ApiClientRuntime\ServerConfiguration;
 
 final class AuthSecurityValue implements SecurityValue
 {
-	private string $value;
-
 	public static function basic(string $username, string $password): self
 	{
 		return new self(base64_encode($username . ':' . $password));
@@ -34,10 +32,9 @@ final class AuthSecurityValue implements SecurityValue
 		return new self('');
 	}
 
-	public function __construct(string $value)
-	{
-		$this->value = $value;
-	}
+	public function __construct(
+		private string $value,
+	) {}
 
 	public function toString(): string
 	{

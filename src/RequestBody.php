@@ -8,5 +8,5 @@ interface RequestBody
 
 	public function getContentType(): string;
 
-	public function getBody(): string;
+	public function getRequestBody(): string;
 }

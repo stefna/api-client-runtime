@@ -13,7 +13,7 @@ final class JsonData implements RequestBody, \JsonSerializable
 		private mixed $data,
 	) {}
 
-	public function getBody(): string
+	public function getRequestBody(): string
 	{
 		return json_encode($this->data, JSON_THROW_ON_ERROR);
 	}

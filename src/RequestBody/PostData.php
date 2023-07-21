@@ -17,7 +17,7 @@ final class PostData implements RequestBody
 		$this->data = $data;
 	}
 
-	public function getBody(): string
+	public function getRequestBody(): string
 	{
 		return http_build_query($this->data);
 	}

@@ -70,7 +70,7 @@ abstract class AbstractService implements LoggerAwareInterface
 		if ($requestBody) {
 			$body = $request->getBody();
 			$body->rewind();
-			$body->write($requestBody->getBody());
+			$body->write($requestBody->getRequestBody());
 			$body->rewind();
 			$request = $request->withHeader('Content-Type', $requestBody->getContentType());
 			$request = $request->withBody($body);

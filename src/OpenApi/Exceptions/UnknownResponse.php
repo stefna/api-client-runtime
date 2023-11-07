@@ -11,7 +11,7 @@ final class UnknownResponse extends \RuntimeException implements ApiClientRespon
 
 	public function __construct(ResponseInterface $response)
 	{
-		parent::__construct('Unknown response');
+		parent::__construct(sprintf('Unknown response (Status Code: %d)', $response->getStatusCode()));
 		$this->response = $response;
 	}
 

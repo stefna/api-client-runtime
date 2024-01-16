@@ -15,7 +15,7 @@
 		"psr/http-message": "^1.0",
 		"psr/http-factory": "^1.0",
 		"psr/log": "^1.1 || ^2.0 || ^3.0",
-		"starburst/utils": "^0.2 || ^1.2"
+		"starburst/utils": "^1.3"
 	},
 	"require-dev": {
 		"stefna/codestyle": "^1.12.1",

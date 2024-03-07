@@ -10,7 +10,7 @@ class DescriptionException extends \Stefna\ApiClientRuntime\Exceptions\Descripti
 
 	public static function withModel(object $model, string $message, ResponseInterface $response): self
 	{
-		$exception = new self($message, $response);
+		$exception = new static($message, $response);
 		$exception->model = $model;
 		return $exception;
 	}

@@ -34,7 +34,7 @@ abstract class AbstractService implements LoggerAwareInterface
 	public function __construct(
 		protected ServerConfiguration $serverConfiguration,
 		protected ClientInterface $client,
-		private RequestFactoryInterface $requestFactory
+		private RequestFactoryInterface $requestFactory,
 	) {}
 
 	public function getServerConfiguration(): ServerConfiguration
@@ -68,12 +68,7 @@ abstract class AbstractService implements LoggerAwareInterface
 			}
 		}
 		if ($requestBody) {
-			$body = $request->getBody();
-			$body->rewind();
-			$body->write($requestBody->getRequestBody());
-			$body->rewind();
-			$request = $request->withHeader('Content-Type', $requestBody->getContentType());
-			$request = $request->withBody($body);
+			$request = $this->buildRequestBody($request, $requestBody);
 		}
 		$request = $request->withUri($uri);
 
@@ -113,6 +108,16 @@ abstract class AbstractService implements LoggerAwareInterface
 			throw new MalformedResponse($response);
 		}
 		return $json;
+	}
+
+	protected function buildRequestBody(RequestInterface $request, RequestBody $requestBody): RequestInterface
+	{
+		$body = $request->getBody();
+		$body->rewind();
+		$body->write($requestBody->getRequestBody());
+		$body->rewind();
+		$request = $request->withHeader('Content-Type', $requestBody->getContentType());
+		return $request->withBody($body);
 	}
 
 	public function getLastResponse(): ?ResponseInterface

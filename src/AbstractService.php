@@ -9,9 +9,10 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Stefna\HttpClient\HttpFactory;
 use Stefna\ApiClientRuntime\Exceptions\MalformedResponse;
 use Stefna\ApiClientRuntime\Exceptions\RequestFailed;
+use Stefna\ApiClientRuntime\Http\ClientFactoryInterface;
+use Stefna\ApiClientRuntime\Http\HttpFactory;
 
 abstract class AbstractService implements LoggerAwareInterface
 {
@@ -20,15 +21,20 @@ abstract class AbstractService implements LoggerAwareInterface
 	private ?ResponseInterface $lastResponse = null;
 	private ?RequestInterface $lastRequest = null;
 
-	public static function create(ServerConfiguration $serverConfiguration, HttpFactory $factory = null): static
-	{
-		if (!$factory) {
+	public static function create(
+		ServerConfiguration $serverConfiguration,
+		ClientInterface|ClientFactoryInterface $clientFactory = null,
+		RequestFactoryInterface $requestFactory = null,
+	): static {
+		$client = $clientFactory instanceof ClientInterface ? $clientFactory : null;
+		if (!$client || !$requestFactory) {
 			$factory = new HttpFactory();
+			$client ??= $factory->createClient();
+			$requestFactory ??= $factory;
 		}
-		$client = $factory->createClient();
 
-		// @phpstan-ignore-next-line
-		return new static($serverConfiguration, $client, $factory);
+		// @phpstan-ignore new.static
+		return new static($serverConfiguration, $client, $requestFactory);
 	}
 
 	public function __construct(

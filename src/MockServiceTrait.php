@@ -7,7 +7,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Stefna\HttpClient\HttpFactory;
+use Stefna\ApiClientRuntime\Http\HttpFactory;
 
 trait MockServiceTrait
 {

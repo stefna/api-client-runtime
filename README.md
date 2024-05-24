@@ -104,6 +104,35 @@ final class Service extends AbstractService
 }
 ```
 
+## Consuming api service
+
+When consuming the api-client you can create it with 2 different methods
+
+### Simple creation
+
+The simple way is to use the static `create` method.
+
+But for that method to work you need to have `nyholm/psr7` and `kriswallsmith/buzz` installed since that's the default
+psr implementations we use
+
+```php
+$service = Service::create(new ServerConfiguration(...));
+
+// use service
+```
+
+### Create with custom psr implementations
+
+If you want you can provide your own Client and Request implementations
+
+```php
+$service = new Service(
+	new ServerConfiguration(...),
+	new GuzzleHttp\Client(),
+	new GuzzleHttp\Psr7\HttpFactory(),
+);
+```
+
 ## License
 
 View the [LICENSE](LICENSE) file attach to this project.

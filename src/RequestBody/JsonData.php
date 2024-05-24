@@ -2,6 +2,7 @@
 
 namespace Stefna\ApiClientRuntime\RequestBody;
 
+use Starburst\Utils\Json;
 use Starburst\Utils\Traits\GetArrayCopyTrait;
 use Stefna\ApiClientRuntime\RequestBody;
 
@@ -15,7 +16,7 @@ final class JsonData implements RequestBody, \JsonSerializable
 
 	public function getRequestBody(): string
 	{
-		return json_encode($this->data, JSON_THROW_ON_ERROR);
+		return Json::encode($this->data);
 	}
 
 	public function getContentType(): string

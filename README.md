@@ -1,5 +1,8 @@
 # Stefna Api Client Runtime
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/stefna/di.svg)](https://packagist.org/packages/stefna/di)
+[![Software License](https://img.shields.io/github/license/stefna/di.svg)](LICENSE)
+
 Base classes to make it easier to create apis.
 
 Used by Stefna OpenApi Generator among others.
@@ -17,8 +20,8 @@ class ServerConfiguration extends AbstractServerConfiguration
 {
 	/** @var string[] */
 	protected array $serverUris = [
-		'production' => 'https://api.stefna.is',
-		'staging' => 'https://staging.api.stefna.is',
+		'production' => 'https://api.example.com',
+		'staging' => 'https://staging.api.example.com',
 	];
 	protected string $selectedBaseUri = 'production';
 	protected SecurityScheme $securityScheme;
@@ -26,7 +29,7 @@ class ServerConfiguration extends AbstractServerConfiguration
 
 	public function __construct(SecurityValue $token)
 	{
-		$this->securityScheme = new ApiKeySecurityScheme('access-token', 'X-Access-Token', 'header');
+		$this->securityScheme = new ApiKeySecurityScheme('access-token', 'X-Api-Token', 'header');
 		$this->securityValue = $token;
 	}
 
@@ -58,22 +61,22 @@ And the second one is the actual api-client
 
 final class Service extends AbstractService
 {
-	public function getTos(string $lang): bool
+	public function getNews(string $lang): array
 	{
 		$response = $this->doRequest(new \Stefna\ApiClientRuntime\Endpoint\Endpoint(
 			'GET',
-			'/tos/' . $lang,
+			'/news/' . $lang,
 			security: ['access-token'],
 		));
 
 		return $this->parseJsonResponse($response);
 	}
 
-	public function sendSms(string $to, string $from, string $text)
+	public function sendNotification(string $to, string $from, string $text)
 	{
 		$response = $this->doRequest(new \Stefna\ApiClientRuntime\Endpoint\Endpoint(
 			'POST',
-			'/sms',
+			'/notification',
 			new \Stefna\ApiClientRuntime\RequestBody\JsonData([
 				'to' => $to,
 				'from' => $from,

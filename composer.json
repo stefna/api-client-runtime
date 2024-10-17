@@ -12,7 +12,7 @@
 	"require": {
 		"php": "^8.0",
 		"psr/http-client": "^1.0",
-		"psr/http-message": "^1.0",
+		"psr/http-message": "^1.0 || ^2.0",
 		"psr/http-factory": "^1.0",
 		"psr/log": "^1.1 || ^2.0 || ^3.0",
 		"starburst/utils": "^1.8"

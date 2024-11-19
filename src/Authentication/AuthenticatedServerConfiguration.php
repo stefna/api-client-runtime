@@ -13,7 +13,7 @@ interface AuthenticatedServerConfiguration
 	/**
 	 * @return bool Returns true if credentials need to be authenticated
 	 */
-	public function needAuthentication(): bool;
+	public function needsAuthentication(): bool;
 
 	public function getClientId(): string;
 

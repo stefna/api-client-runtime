@@ -30,13 +30,13 @@ trait AuthenticationHelperTrait
 
 	protected function checkIfNeedAuthentication(): bool
 	{
-		if ($this instanceof AuthenticatedServerConfiguration && $this->needAuthentication()) {
+		if ($this instanceof AuthenticatedServerConfiguration && $this->needsAuthentication()) {
 			return true;
 		}
 
 		if (
 			$this->serverConfiguration instanceof AuthenticatedServerConfiguration
-			&& $this->serverConfiguration->needAuthentication()
+			&& $this->serverConfiguration->needsAuthentication()
 		) {
 			return true;
 		}

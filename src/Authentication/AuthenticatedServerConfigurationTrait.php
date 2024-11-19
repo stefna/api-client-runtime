@@ -4,7 +4,7 @@ namespace Stefna\ApiClientRuntime\Authentication;
 
 trait AuthenticatedServerConfigurationTrait
 {
-	protected bool $needAuthenticated = true;
+	protected bool $needsAuthentication = true;
 	protected string $currentClientId;
 	protected string $currentClientSecret;
 
@@ -14,15 +14,15 @@ trait AuthenticatedServerConfigurationTrait
 		string $clientSecret,
 	): void {
 		if (isset($this->currentClientId) && $clientId !== $this->currentClientId) {
-			$this->needAuthenticated = true;
+			$this->needsAuthentication = true;
 		}
 		$this->currentClientId = $clientId;
 		$this->currentClientSecret = $clientSecret;
 	}
 
-	public function needAuthentication(): bool
+	public function needsAuthentication(): bool
 	{
-		return $this->needAuthenticated;
+		return $this->needsAuthentication;
 	}
 
 	public function getClientId(): string

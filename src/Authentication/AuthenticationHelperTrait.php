@@ -63,7 +63,7 @@ trait AuthenticationHelperTrait
 	/**
 	 * @return array<mixed>
 	 */
-	protected function parseAuthResponse(ResponseInterface $response): array
+	protected function handleAuthResponse(ResponseInterface $response): array
 	{
 		$responseCode = $response->getStatusCode();
 		if ($responseCode === 401) {

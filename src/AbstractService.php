@@ -9,7 +9,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Stefna\ApiClientRuntime\Authentication\AuthenticatedService;
+use Stefna\ApiClientRuntime\Authentication\GeneralAuthenticatedService;
 use Stefna\ApiClientRuntime\Exceptions\MalformedResponse;
 use Stefna\ApiClientRuntime\Exceptions\RequestFailed;
 use Stefna\ApiClientRuntime\Http\ClientFactoryInterface;
@@ -59,7 +59,7 @@ abstract class AbstractService implements LoggerAwareInterface
 
 	protected function doRequest(Endpoint $endpoint): ResponseInterface
 	{
-		if ($this instanceof AuthenticatedService && !$this->doingAuthentication) {
+		if ($this instanceof GeneralAuthenticatedService && !$this->doingAuthentication) {
 			$this->doingAuthentication = true;
 			$this->executeAuthentication();
 			$this->doingAuthentication = false;

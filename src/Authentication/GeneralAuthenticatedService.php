@@ -2,7 +2,7 @@
 
 namespace Stefna\ApiClientRuntime\Authentication;
 
-interface AuthenticatedService
+interface GeneralAuthenticatedService
 {
 	public function executeAuthentication(): void;
 

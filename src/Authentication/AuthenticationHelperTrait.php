@@ -49,7 +49,7 @@ trait AuthenticationHelperTrait
 	 */
 	protected function findClientCredentials(): array
 	{
-		if ($this instanceof AuthenticatedServerConfiguration) {
+		if ($this instanceof AuthenticatedServerConfiguration && $this->getClientId()) {
 			return [$this->getClientId(), $this->getClientSecret()];
 		}
 

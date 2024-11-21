@@ -7,8 +7,10 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Starburst\Utils\Json;
 use Stefna\ApiClientRuntime\Authentication\GeneralAuthenticatedService;
 use Stefna\ApiClientRuntime\Exceptions\MalformedResponse;
 use Stefna\ApiClientRuntime\Exceptions\RequestFailed;
@@ -27,22 +29,25 @@ abstract class AbstractService implements LoggerAwareInterface
 		ServerConfiguration $serverConfiguration,
 		ClientInterface|ClientFactoryInterface $clientFactory = null,
 		RequestFactoryInterface $requestFactory = null,
+		StreamFactoryInterface $streamFactory = null,
 	): static {
 		$client = $clientFactory instanceof ClientInterface ? $clientFactory : null;
-		if (!$client || !$requestFactory) {
+		if (!$client || !$requestFactory || !$streamFactory) {
 			$factory = new HttpFactory();
 			$client ??= $factory->createClient();
 			$requestFactory ??= $factory;
+			$streamFactory ??= $factory;
 		}
 
 		// @phpstan-ignore new.static
-		return new static($serverConfiguration, $client, $requestFactory);
+		return new static($serverConfiguration, $client, $requestFactory, $streamFactory);
 	}
 
 	public function __construct(
 		protected ServerConfiguration $serverConfiguration,
 		protected ClientInterface $client,
 		private RequestFactoryInterface $requestFactory,
+		private null|StreamFactoryInterface $streamFactory = null,
 	) {}
 
 	public function getServerConfiguration(): ServerConfiguration
@@ -124,8 +129,14 @@ abstract class AbstractService implements LoggerAwareInterface
 		return $json;
 	}
 
-	protected function buildRequestBody(RequestInterface $request, RequestBody $requestBody): RequestInterface
+	protected function buildRequestBody(RequestInterface $request, RequestBody|RequestStreamBody $requestBody): RequestInterface
 	{
+		if ($requestBody instanceof RequestStreamBody) {
+			return $request
+				->withBody($requestBody->getRequestStreamBody($this->streamFactory))
+				->withHeader('Content-Type', $requestBody->getContentType());
+		}
+
 		$body = $request->getBody();
 		$body->rewind();
 		$body->write($requestBody->getRequestBody());

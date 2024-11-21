@@ -13,7 +13,7 @@ interface Endpoint
 	 * @return array<string, mixed>
 	 */
 	public function getQueryParams(): array;
-	public function getRequestBody(): ?RequestBody;
+	public function getRequestBody(): null|RequestBody|RequestStreamBody;
 	public function getPath(): string;
 	public function getMethod(): string;
 	public function getDefaultSecurity(): string;

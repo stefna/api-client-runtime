@@ -4,6 +4,7 @@ namespace Stefna\ApiClientRuntime\Endpoint;
 
 use Stefna\ApiClientRuntime\Endpoint as EndpointContract;
 use Stefna\ApiClientRuntime\RequestBody;
+use Stefna\ApiClientRuntime\RequestStreamBody;
 use Stefna\ApiClientRuntime\ServerConfiguration\SecurityScheme;
 
 class Endpoint implements EndpointContract
@@ -16,7 +17,7 @@ class Endpoint implements EndpointContract
 	public function __construct(
 		protected string $method,
 		protected string $path,
-		protected ?RequestBody $body = null,
+		protected null|RequestBody|RequestStreamBody $body = null,
 		protected array $query = [],
 		protected array $headers = [],
 		protected array $security = [],
@@ -32,7 +33,7 @@ class Endpoint implements EndpointContract
 		return $this->query;
 	}
 
-	public function getRequestBody(): ?RequestBody
+	public function getRequestBody(): null|RequestBody|RequestStreamBody
 	{
 		return $this->body;
 	}

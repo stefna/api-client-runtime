@@ -133,6 +133,9 @@ abstract class AbstractService implements LoggerAwareInterface
 	protected function buildRequestBody(RequestInterface $request, RequestBody|RequestStreamBody $requestBody): RequestInterface
 	{
 		if ($requestBody instanceof RequestStreamBody) {
+			if (!$this->streamFactory) {
+				throw new \BadMethodCallException('Stream factory is required for RequestStreamBody');
+			}
 			return $request
 				->withBody($requestBody->getRequestStreamBody($this->streamFactory))
 				->withHeader('Content-Type', $requestBody->getContentType());

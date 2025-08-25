@@ -64,6 +64,7 @@ abstract class AbstractService implements LoggerAwareInterface
 
 	protected function doRequest(Endpoint $endpoint): ResponseInterface
 	{
+		$this->lastResponse = null;
 		if ($this instanceof GeneralAuthenticatedService && !$this->doingAuthentication) {
 			$this->doingAuthentication = true;
 			$this->executeAuthentication();

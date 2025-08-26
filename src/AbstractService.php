@@ -23,6 +23,7 @@ abstract class AbstractService implements LoggerAwareInterface
 
 	private ?ResponseInterface $lastResponse = null;
 	private ?RequestInterface $lastRequest = null;
+	private ?Endpoint $lastEndpoint = null;
 	private bool $doingAuthentication = false;
 
 	public static function create(
@@ -64,6 +65,7 @@ abstract class AbstractService implements LoggerAwareInterface
 
 	protected function doRequest(Endpoint $endpoint): ResponseInterface
 	{
+		$this->lastEndpoint = $endpoint;
 		$this->lastResponse = null;
 		if ($this instanceof GeneralAuthenticatedService && !$this->doingAuthentication) {
 			$this->doingAuthentication = true;
@@ -157,5 +159,74 @@ abstract class AbstractService implements LoggerAwareInterface
 	public function getLastRequest(): ?RequestInterface
 	{
 		return $this->lastRequest;
+	}
+
+	/**
+	 * @return array{
+	 *     response?: array{
+	 *         status: int|null,
+	 *         body: string|null,
+	 *         headers: array<mixed>|null,
+	 *     },
+	 *     request?: array{
+	 *         host: string|null,
+	 *         path: string|null,
+	 *         body?: string|null,
+	 *         query?: string|null,
+	 *         headers: array<mixed>|null,
+	 *     },
+	 *     endpoint?: array{
+	 *         class: string,
+	 *         path: string,
+	 *         method: string,
+	 *         headers: array<string, string>,
+	 *         queryParams: array<string, mixed>,
+	 *         defaultSecurity: string,
+	 *         security: list<string>,
+	 *         body: mixed,
+	 *     },
+	 * }
+	 */
+	public function getRequestDebugInfo(
+		bool $includeResponseBody = false,
+		bool $includeRequestBody = false,
+	): array {
+		$debugInfo = [];
+		if ($this->lastEndpoint) {
+			$body = null;
+			$requestBody = $this->lastEndpoint->getRequestBody();
+			if ($requestBody && $includeRequestBody) {
+				if ($requestBody instanceof RequestStreamBody) {
+					$body = $requestBody->getContentType();
+				}
+			}
+			$debugInfo['endpoint'] = [
+				'class' => $this->lastEndpoint::class,
+				'path' => $this->lastEndpoint->getPath(),
+				'method' => $this->lastEndpoint->getMethod(),
+				'headers' => $this->lastEndpoint->getHeaders(),
+				'queryParams' => $this->lastEndpoint->getQueryParams(),
+				'defaultSecurity' => $this->lastEndpoint->getDefaultSecurity(),
+				'security' => $this->lastEndpoint->getSecurity(),
+				'body' => $body,
+			];
+		}
+		if ($this->lastRequest) {
+			$debugInfo['request'] = [
+				'host' => $this->lastRequest->getUri()->getHost(),
+				'path' => $this->lastRequest->getUri()->getPath(),
+				'body' => $includeRequestBody ? $this->lastRequest->getBody()->__toString() : null,
+				'query' => $this->lastRequest->getUri()->getQuery(),
+				'headers' => $this->lastRequest->getHeaders(),
+			];
+		}
+		if ($this->lastResponse) {
+			$debugInfo['response'] = [
+				'body' => $includeResponseBody ? $this->lastResponse->getBody()->__toString() : null,
+				'status' => $this->lastResponse->getStatusCode(),
+				'headers' => $this->lastResponse->getHeaders(),
+			];
+		}
+		return $debugInfo;
 	}
 }

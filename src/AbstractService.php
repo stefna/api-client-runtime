@@ -17,7 +17,7 @@ use Stefna\ApiClientRuntime\Exceptions\RequestFailed;
 use Stefna\ApiClientRuntime\Http\ClientFactoryInterface;
 use Stefna\ApiClientRuntime\Http\HttpFactory;
 
-abstract class AbstractService implements LoggerAwareInterface
+abstract class AbstractService implements LoggerAwareInterface, DebugAwareService
 {
 	use LoggerAwareTrait;
 

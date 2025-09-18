@@ -19,7 +19,7 @@
 	},
 	"require-dev": {
 		"stefna/codestyle": "^1.12.1",
-		"phpstan/phpstan": "^1.10",
+		"phpstan/phpstan": "^2.0",
 		"nyholm/psr7": "^1.0",
 		"kriswallsmith/buzz":"^1.0"
 	},

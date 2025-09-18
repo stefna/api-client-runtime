@@ -28,9 +28,9 @@ abstract class AbstractService implements LoggerAwareInterface, DebugAwareServic
 
 	public static function create(
 		ServerConfiguration $serverConfiguration,
-		ClientInterface|ClientFactoryInterface $clientFactory = null,
-		RequestFactoryInterface $requestFactory = null,
-		StreamFactoryInterface $streamFactory = null,
+		null|ClientInterface|ClientFactoryInterface $clientFactory = null,
+		null|RequestFactoryInterface $requestFactory = null,
+		null|StreamFactoryInterface $streamFactory = null,
 	): static {
 		$client = $clientFactory instanceof ClientInterface ? $clientFactory : null;
 		if (!$client || !$requestFactory || !$streamFactory) {
